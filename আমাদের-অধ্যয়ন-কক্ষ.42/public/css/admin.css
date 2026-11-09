@@ -1,0 +1,453 @@
+:root{--bg:#eaf4f0;--card:#fff;--ink:#12302a;--mute:#5b776f;--line:#d0e2da;--a:#1c9a78;--as:#d9f0e8;--b:#7a5cf0;--bs:#e9e3ff;--danger:#b8372a;--g1:rgba(28,154,120,.18);--g2:rgba(122,92,240,.15);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#081210;--card:#10221d;--ink:#f0fdf8;--mute:#9ed1c2;--line:#1d3a32;--a:#3fcaa2;--as:#174236;--b:#a995ff;--bs:#2a2447;--danger:#ff8b7c;--g1:rgba(63,202,162,.2);--g2:rgba(169,149,255,.18);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#081210;--card:#10221d;--ink:#f0fdf8;--mute:#9ed1c2;--line:#1d3a32;--a:#3fcaa2;--as:#174236;--b:#a995ff;--bs:#2a2447;--danger:#ff8b7c;--g1:rgba(63,202,162,.2);--g2:rgba(169,149,255,.18);color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;min-height:100vh;color:var(--ink);font:16px/1.55 "Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;background:radial-gradient(600px 400px at 0 0,var(--g1),transparent 70%),radial-gradient(600px 420px at 100% 100%,var(--g2),transparent 70%),var(--bg);background-attachment:fixed}
+button,input,select{font:inherit;color:var(--ink)}button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--a);outline-offset:2px}
+h1,h2,h3{margin:0}h2{font-size:20px;margin-bottom:8px}h3{font-size:15px;color:var(--mute);margin:14px 0 6px}
+.mute{color:var(--mute)}
+.shell{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+.side{position:sticky;top:0;height:100vh;padding:18px 12px;border-right:1px solid var(--line);background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(10px);display:flex;flex-direction:column;gap:6px}
+.side h1{font-size:20px;padding:0 8px 12px;font-weight:700;color:var(--ink)}
+.nv{text-align:left;border:0;background:transparent;border-radius:12px;padding:10px 14px;font-weight:600;font-size:15px;color:var(--ink);transition:all .2s ease}
+.nv.on{background:var(--as);color:var(--a)}.nv:hover{background:var(--as)}
+.sp{flex:1}
+.main{padding:22px 20px 60px;max-width:920px;width:100%}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:16px 18px;margin-top:12px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+
+/* ক্লিকেবল ও অ্যানিমেটেড KPI কার্ড */
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px}
+.kpi .card{margin:0;border-top:4px solid var(--a);cursor:pointer;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.kpi .card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,.15);border-color:var(--a)}
+.kpi .card:nth-child(even){border-top-color:var(--b)}
+.kpi .card:nth-child(even):hover{border-color:var(--b)}
+.kpi b{display:block;font-size:32px;line-height:1.15;margin-top:4px;color:var(--ink)}
+.kpi .mute{font-size:14px;font-weight:600}
+
+.btn{background:var(--a);color:#0b1513;border:0;border-radius:12px;padding:8px 16px;font-weight:600;transition:all .2s ease}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn.ghost{background:color-mix(in srgb,var(--card) 85%,var(--line));color:var(--ink);border:1.5px solid var(--line)}
+.btn.ghost:hover{border-color:var(--a);background:var(--as)}
+:root[data-theme="dark"] .btn.ghost{color:#f0fdf8;background:rgba(255,255,255,.05);border-color:rgba(63,202,162,.3)}
+:root[data-theme="dark"] .btn.ghost:hover{background:var(--as);color:#3fcaa2}
+
+.btn.dn{background:var(--danger);color:#fff}.btn.alt{background:var(--b);color:#fff}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+input,select{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:9px 14px;min-width:0;color:var(--ink)}
+input:focus,select:focus{border-color:var(--a);outline:none}
+.bar input{flex:1}
+.badge{font-size:13px;border-radius:99px;padding:3px 12px;background:var(--as);color:var(--a);font-weight:600;white-space:nowrap}
+.badge.s{background:var(--bs);color:var(--b)}.badge.x{background:var(--danger);color:#fff}
+.dot::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:#22c55e;margin-right:7px}
+.sw{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.chip{background:var(--as);border-radius:99px;padding:3px 14px;font-size:14px;color:var(--ink)}
+.ses{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:grid;place-items:center;padding:16px;z-index:1000}.modal[hidden]{display:none !important;pointer-events:none !important;visibility:hidden !important;opacity:0 !important}
+.mbox{background:var(--card);border:1.5px solid var(--line);border-radius:22px;padding:22px;max-width:540px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 25px 60px rgba(0,0,0,.6);z-index:1050;position:relative}
+.mbox input,.mbox select{width:100%;margin-top:8px}
+
+/* Unified Admin Modal Backdrop & Dialog System (Requirement 1) */
+.admin-modal-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 1000 !important;
+  padding: 16px !important;
+}
+.admin-modal-dialog {
+  z-index: 1050 !important;
+  position: relative !important;
+  max-height: 92vh !important;
+  overflow-y: auto !important;
+}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#10221d;color:#3fcaa2;border:1px solid #3fcaa2;border-radius:99px;padding:9px 20px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .25s;z-index:20000;box-shadow:0 10px 25px rgba(0,0,0,.3)}
+#toast.show{opacity:1}
+.login{max-width:380px;margin:12vh auto 0;padding:0 16px}.login input{width:100%;margin-top:10px}.er{color:var(--danger);min-height:1.4em;margin-top:8px}
+@media(max-width:720px){.shell{grid-template-columns:1fr}.side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;border-right:0;border-bottom:1px solid var(--line);padding:10px}.side h1{width:100%;padding:0 4px}.sp{display:none}}
+
+/* ===== Premium Glassmorphism Admin Login UI (Aquarium Theme) ===== */
+body.admin-login-active {
+  background: linear-gradient(rgba(4, 18, 14, 0.45), rgba(2, 12, 9, 0.78)), url('../img/aquarium.webp') center/cover no-repeat fixed, url('img/aquarium.webp') center/cover no-repeat fixed, #081210 !important;
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+.admin-glass-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  box-sizing: border-box;
+}
+
+.admin-glass-card {
+  background: rgba(7, 24, 18, 0.72) !important;
+  backdrop-filter: blur(24px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
+  border: 1.5px solid rgba(52, 211, 153, 0.38) !important;
+  border-radius: 26px !important;
+  padding: 38px 32px !important;
+  max-width: 430px;
+  width: 100%;
+  box-shadow: 0 30px 65px rgba(0, 0, 0, 0.7), 0 0 40px rgba(16, 185, 129, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+  animation: glassFadeIn 0.35s ease-out;
+  box-sizing: border-box;
+}
+
+@keyframes glassFadeIn {
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.admin-glass-badge {
+  width: 62px;
+  height: 62px;
+  border-radius: 18px;
+  background: rgba(16, 185, 129, 0.16);
+  border: 1.5px solid rgba(52, 211, 153, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin: 0 auto 14px;
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.35);
+}
+
+.admin-glass-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #ffffff !important;
+  text-align: center;
+  margin: 0 0 4px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.admin-glass-sub {
+  color: #a7f3d0;
+  font-size: 13.5px;
+  text-align: center;
+  margin: 0 0 24px;
+  opacity: 0.9;
+}
+
+.admin-input-group {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.admin-input-label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #34d399;
+  margin-bottom: 6px;
+}
+
+.admin-glass-input {
+  width: 100% !important;
+  background: rgba(8, 28, 22, 0.65) !important;
+  border: 1.5px solid rgba(52, 211, 153, 0.35) !important;
+  border-radius: 14px !important;
+  padding: 12px 16px !important;
+  color: #ffffff !important;
+  font-size: 15px !important;
+  font-family: inherit;
+  box-sizing: border-box !important;
+  transition: all 0.22s ease !important;
+}
+
+.admin-glass-input::placeholder {
+  color: rgba(167, 243, 208, 0.45);
+}
+
+.admin-glass-input:focus {
+  border-color: #34d399 !important;
+  box-shadow: 0 0 20px rgba(52, 211, 153, 0.55) !important;
+  background: rgba(10, 36, 28, 0.88) !important;
+  outline: none !important;
+}
+
+.admin-glass-btn {
+  width: 100% !important;
+  background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #059669 100%) !important;
+  color: #03231a !important;
+  border: none !important;
+  border-radius: 14px !important;
+  padding: 13px 20px !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  cursor: pointer;
+  margin-top: 12px;
+  box-shadow: 0 6px 24px rgba(16, 185, 129, 0.5), 0 0 22px rgba(52, 211, 153, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.6) !important;
+  transition: all 0.22s ease !important;
+}
+
+.admin-glass-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 32px rgba(16, 185, 129, 0.7), 0 0 32px rgba(52, 211, 153, 0.5) !important;
+  filter: brightness(1.08) !important;
+}
+
+.admin-glass-btn:active {
+  transform: translateY(1px) !important;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.4) !important;
+}
+
+.admin-glass-err {
+  color: #f87171;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  min-height: 1.4em;
+  margin-top: 10px;
+}
+
+.admin-back-btn {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 999;
+  background: rgba(8, 26, 20, 0.65) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1.5px solid rgba(52, 211, 153, 0.4) !important;
+  color: #34d399 !important;
+  padding: 10px 20px !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  font-size: 13.5px !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 15px rgba(52, 211, 153, 0.15) !important;
+  transition: all 0.25s ease !important;
+}
+
+.admin-back-btn:hover {
+  background: rgba(16, 185, 129, 0.22) !important;
+  border-color: #34d399 !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 28px rgba(16, 185, 129, 0.4) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* ===== Option 2: Modern Glass Cards & Action Dropdown ===== */
+.q-glass-card {
+  background: #1e293b !important;
+  background: rgba(30, 41, 59, 0.85) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 14px !important;
+  padding: 16px 20px !important;
+  margin-bottom: 12px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 16px !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28) !important;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+  position: relative !important;
+  overflow: visible !important;
+  z-index: 10 !important;
+}
+
+#admin_exam_sets_container,
+#admin_q_mgmt_card {
+  overflow: visible !important;
+  position: relative !important;
+}
+
+.q-glass-card.dropdown-active {
+  z-index: 9999 !important;
+  position: relative !important;
+  border-color: rgba(250, 204, 21, 0.6) !important;
+}
+
+.q-glass-card:hover {
+  border-color: rgba(250, 204, 21, 0.35) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.38) !important;
+}
+
+.q-glass-title {
+  color: #f8fafc !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  line-height: 1.45 !important;
+  margin-bottom: 6px !important;
+}
+
+.q-glass-time-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #94a3b8 !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  padding: 2.5px 9px !important;
+  border-radius: 6px !important;
+}
+
+.q-glass-actions-col {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  align-items: flex-end !important;
+  position: relative !important;
+  flex-shrink: 0 !important;
+  overflow: visible !important;
+  z-index: 9999 !important;
+}
+
+.btn-glass-edit {
+  background: #facc15 !important;
+  color: #1e293b !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 6px 14px !important;
+  font-size: 12.5px !important;
+  font-weight: 800 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  min-width: 86px !important;
+  justify-content: center !important;
+  box-shadow: 0 2px 8px rgba(250, 204, 21, 0.25) !important;
+}
+
+.btn-glass-edit:hover {
+  background: #fde047 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(250, 204, 21, 0.4) !important;
+}
+
+.btn-glass-remove {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 6px 14px !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  min-width: 86px !important;
+  justify-content: center !important;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.25) !important;
+}
+
+.btn-glass-remove:hover {
+  background: #dc2626 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4) !important;
+}
+
+/* Edit Dropdown Menu matching 4-Button Edit System (Requirement 2: z-index 99999) */
+.q-edit-dropdown {
+  position: absolute !important;
+  top: 100% !important;
+  right: 0 !important;
+  margin-top: 6px !important;
+  width: 250px !important;
+  background: rgba(15, 23, 42, 0.98) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1.5px solid rgba(250, 204, 21, 0.5) !important;
+  border-radius: 14px !important;
+  padding: 10px !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9), 0 0 24px rgba(250, 204, 21, 0.2) !important;
+  z-index: 99999 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  animation: dropdownFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(-4px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.q-edit-dropdown-header {
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  color: #facc15 !important;
+  padding: 2px 6px 6px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  margin-bottom: 4px !important;
+  letter-spacing: 0.4px;
+}
+
+.q-edit-dropdown-item {
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  padding: 8px 10px !important;
+  border-radius: 10px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #e2e8f0 !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  cursor: pointer !important;
+  text-align: left !important;
+  transition: all 0.18s ease !important;
+  box-sizing: border-box !important;
+}
+
+.q-edit-dropdown-item:hover {
+  background: rgba(250, 204, 21, 0.18) !important;
+  border-color: rgba(250, 204, 21, 0.5) !important;
+  color: #ffffff !important;
+  transform: translateX(-2px) !important;
+}
+
+.q-edit-dropdown-item.danger:hover {
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: #ef4444 !important;
+}
+
+.q-edit-dropdown-dur-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 6px 10px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  margin-top: 4px !important;
+  font-size: 12.5px !important;
+  color: #cbd5e1 !important;
+  font-weight: 600 !important;
+}
+
+.q-edit-dropdown-dur-input {
+  width: 52px !important;
+  padding: 3px 6px !important;
+  border-radius: 6px !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  background: #0f172a !important;
+  color: #f8fafc !important;
+  text-align: center !important;
+  font-weight: 700 !important;
+  font-size: 12.5px !important;
+}
