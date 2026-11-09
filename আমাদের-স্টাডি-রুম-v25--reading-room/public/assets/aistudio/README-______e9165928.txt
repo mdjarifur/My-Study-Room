@@ -1,0 +1,16 @@
+ধাপ ০: ফোল্ডারে ভাগ (সাইটের আচরণ একটুও বদলায়নি)
+
+১) আগে পুরো ReadingRoom ফোল্ডারের একটা কপি (জিপ) অন্য জায়গায় রাখো।
+২) এই প্যাকেজের "public" ফোল্ডারটা তোমার ReadingRoom ফোল্ডারে (firebase.json এর পাশে) কপি করো।
+৩) তোমার আগের dmc.png ফাইলটা public/img/ ফোল্ডারে (আসল ছবিটাই) রাখো, আর 404.html public/ ফোল্ডারে রাখো।
+৪) এই প্যাকেজের firebase.json দিয়ে তোমার firebase.json বদলে দাও (public ফোল্ডার আর no-cache নিয়ম আছে)।
+৫) PowerShell-এ: firebase.cmd deploy
+৬) পেজ খুলে Ctrl+Shift+R চাপো। সব আগের মতো চললে পুরনো index.html, dmc.png আর 404.html (ReadingRoom-এর মূল ফোল্ডারেরগুলো) মুছে ফেলতে পারো।
+
+ফাইলগুলো:
+  public/index.html     পেজের কাঠামো
+  public/css/app.css    সব ডিজাইন (আগের মতোই)
+  public/js/config.js   Firebase কনফিগ
+  public/js/app.js      আগের পুরো কোড (অপরিবর্তিত)
+  public/img/           ছবি (এখানে dmc.png রাখবে)
+  database.rules.json   Rules-এর কপি (নিজের রেকর্ডের জন্য, অনলাইনে যায় না)

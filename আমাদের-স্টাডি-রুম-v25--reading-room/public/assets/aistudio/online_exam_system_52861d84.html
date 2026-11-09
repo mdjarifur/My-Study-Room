@@ -1,0 +1,823 @@
+<!DOCTYPE1 html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>অনলাইন পরীক্ষা সিস্টেম - Online Assessment Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Hind Siliguri for Bengali -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Hind Siliguri', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #f8fafc;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-brand-500 selection:text-white min-h-screen flex flex-col justify-between">
+
+    <!-- হেডার বা নেভিগেশন বার -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="bg-brand-600 text-white p-2 rounded-lg flex items-center justify-center">
+                    <i class="fa-solid fa-graduation-cap text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-800 leading-tight">মেধা যাচাই - ডিজিটাল পরীক্ষা কেন্দ্র</h1>
+                    <p class="text-xs text-slate-500 hidden sm:block">অনলাইন অ্যাসেসমেন্ট ও ইভালুয়েশন পোর্টাল</p>
+                </div>
+            </div>
+            <div id="header-user-info" class="hidden items-center gap-3 bg-slate-100 py-1.5 px-3 rounded-full text-sm">
+                <i class="fa-regular fa-user text-brand-600"></i>
+                <span id="display-user-name" class="font-medium text-slate-700">পরীক্ষার্থী</span>
+                <span class="text-slate-300">|</span>
+                <span id="display-roll" class="text-slate-500 text-xs sm:text-sm">রোল: --</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- মূল কনটেন্ট কন্টেইনার -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
+
+        <!-- ১. লগইন / রেজিস্ট্রেশন স্ক্রিন -->
+        <section id="login-section" class="max-w-xl mx-auto bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden transition-all">
+            <div class="bg-gradient-to-r from-brand-700 to-brand-500 p-6 text-white text-center">
+                <h2 class="text-2xl font-bold">অনলাইন পরীক্ষায় অংশগ্রহণ করুন</h2>
+                <p class="text-brand-100 text-sm mt-1">পরীক্ষা শুরু করতে আপনার তথ্য প্রদান করুন</p>
+            </div>
+            <form id="login-form" class="p-6 sm:p-8 space-y-5" onsubmit="handleStartExam(event)">
+                <div>
+                    <label for="student-name" class="block text-sm font-semibold text-slate-700 mb-2">পূর্ণ নাম <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <input type="text" id="student-name" required placeholder="আপনার নাম লিখুন" 
+                            class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="roll-number" class="block text-sm font-semibold text-slate-700 mb-2">রোল / রেজিস্ট্রেশন নম্বর <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <i class="fa-solid fa-id-card"></i>
+                        </div>
+                        <input type="text" id="roll-number" required placeholder="যেমন: ১২৩৪৫৬" 
+                            class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="subject-select" class="block text-sm font-semibold text-slate-700 mb-2">পরীক্ষার বিষয় নির্বাচন করুন <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <select id="subject-select" required class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition text-sm bg-white">
+                            <option value="" disabled selected>বিষয় পছন্দ করুন</option>
+                            <option value="ict">তথ্য ও যোগাযোগ প্রযুক্তি (ICT)</option>
+                            <option value="gk">সাধারণ জ্ঞান (বাংলাদেশ ও বিশ্ব)</option>
+                            <option value="science">সাধারণ বিজ্ঞান (General Science)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- পরীক্ষার নিয়মাবলী -->
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-xs text-amber-800 space-y-1.5">
+                    <p class="font-bold text-amber-900 flex items-center gap-1.5">
+                        <i class="fa-solid fa-circle-info"></i> পরীক্ষার গুরুত্বপূর্ণ নিয়মাবলী:
+                    </p>
+                    <ul class="list-disc list-inside space-y-1 pl-1">
+                        <li>পরীক্ষা চলাকালীন অন্য কোনো ট্যাবে যাওয়া সম্পূর্ণ নিষেধ।</li>
+                        <li>ট্যাব পরিবর্তন করলে সিকিউরিটি সিস্টেম তা রেকর্ড করবে।</li>
+                        <li>নির্ধারিত সময় শেষ হলে পরীক্ষা স্বয়ংক্রিয়ভাবে জমা হয়ে যাবে।</li>
+                    </ul>
+                </div>
+
+                <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md hover:shadow-lg transition duration-200 flex items-center justify-center gap-2">
+                    <span>পরীক্ষা শুরু করুন</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+        </section>
+
+        <!-- ২. পরীক্ষা ইন্টারফেস স্ক্রিন -->
+        <section id="exam-section" class="hidden grid grid-cols-1 lg:grid-cols-4 gap-6">
+            
+            <!-- বাম/মূল অংশ: প্রশ্নপত্র -->
+            <div class="lg:col-span-3 space-y-4">
+                
+                <!-- টাইমার ও স্ট্যাটাস বার -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <span id="exam-subject-title" class="text-xs font-semibold uppercase tracking-wider text-brand-600 bg-brand-50 px-2.5 py-1 rounded-md">বিষয়</span>
+                        <h2 class="text-lg font-bold text-slate-800 mt-1">বহুনির্বাচনী প্রশ্নাবলী (MCQ)</h2>
+                    </div>
+                    
+                    <!-- লাইভ কাউন্টডাউন টাইমার -->
+                    <div class="flex items-center gap-3 bg-red-50 border border-red-200 px-4 py-2 rounded-xl text-red-600">
+                        <i class="fa-solid fa-clock text-lg animate-pulse"></i>
+                        <div>
+                            <div class="text-[10px] uppercase font-bold text-red-400 leading-none">অবশিষ্ট সময়</div>
+                            <div id="timer-display" class="text-xl font-extrabold font-mono leading-tight">00:00</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- প্রশ্ন কার্ড -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 relative">
+                    
+                    <!-- প্রশ্ন নম্বর ও ফ্ল্যাগ বোতাম -->
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-5">
+                        <span class="text-sm font-semibold text-slate-500">
+                            প্রশ্ন <span id="current-q-num" class="text-brand-600 font-bold text-base">1</span> / <span id="total-q-num">10</span>
+                        </span>
+                        <button id="flag-btn" onclick="toggleFlag()" class="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 transition">
+                            <i class="fa-regular fa-bookmark"></i>
+                            <span id="flag-btn-text">পরে দেখার জন্য চিহ্নিত করুন</span>
+                        </button>
+                    </div>
+
+                    <!-- প্রশ্ন শিরোনাম -->
+                    <h3 id="question-text" class="text-lg sm:text-xl font-bold text-slate-800 mb-6 leading-relaxed">
+                        প্রশ্ন লোড হচ্ছে...
+                    </h3>
+
+                    <!-- বিকল্পসমূহ (Options) -->
+                    <div id="options-container" class="space-y-3">
+                        <!-- জাভাস্ক্রিপ্ট দিয়ে অপশন লোড হবে -->
+                    </div>
+
+                    <!-- নেভিগেশন বোতামসমূহ -->
+                    <div class="flex items-center justify-between mt-8 pt-6 border-t border-slate-100">
+                        <button id="prev-btn" onclick="navigateQuestion(-1)" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-medium hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-2">
+                            <i class="fa-solid fa-chevron-left text-xs"></i> পূর্ববর্তী
+                        </button>
+
+                        <button id="next-btn" onclick="navigateQuestion(1)" class="px-6 py-2.5 rounded-xl bg-brand-600 text-white font-medium hover:bg-brand-700 transition flex items-center gap-2 shadow-sm">
+                            পরবর্তী <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ডান অংশ: কোশ্চেন ট্র্যাকার ও সাবমিট -->
+            <div class="space-y-4">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                    <h4 class="font-bold text-slate-800 border-b border-slate-100 pb-3 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-table-cells text-brand-600"></i> প্রশ্ন ট্র্যাকার
+                    </h4>
+
+                    <!-- ইন্ডিকেটর লেবেল -->
+                    <div class="grid grid-cols-2 gap-2 text-xs mb-4">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+                            <span class="text-slate-600">উত্তর দেওয়া হয়েছে</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-slate-200 inline-block"></span>
+                            <span class="text-slate-600">উত্তর দেওয়া হয়নি</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span>
+                            <span class="text-slate-600">চিহ্নিত (Flagged)</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full ring-2 ring-brand-500 bg-white inline-block"></span>
+                            <span class="text-slate-600">বর্তমান প্রশ্ন</span>
+                        </div>
+                    </div>
+
+                    <!-- প্রশ্ন গ্রিড বোতাম -->
+                    <div id="question-palette" class="grid grid-cols-5 gap-2 max-h-60 overflow-y-auto custom-scrollbar p-1">
+                        <!-- জাভাস্ক্রিপ্ট দিয়ে তৈরি হবে -->
+                    </div>
+
+                    <!-- সাবমিট বাটন -->
+                    <button onclick="confirmSubmitExam()" class="w-full mt-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transition duration-200 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>পরীক্ষা জমা দিন</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ৩. ফলাফল ড্যাশবোর্ড স্ক্রিন -->
+        <section id="result-section" class="hidden max-w-4xl mx-auto space-y-6">
+            
+            <!-- ফলাফল সামারি কার্ড -->
+            <div class="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden">
+                <div id="result-header-bg" class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white p-8 text-center">
+                    <div class="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-3 backdrop-blur-sm">
+                        <i id="result-icon" class="fa-solid fa-trophy text-4xl"></i>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold">পরীক্ষার ফলাফল সমাপনী</h2>
+                    <p id="result-message" class="text-emerald-100 mt-1">অভিনন্দন! আপনি সফলভাবে পরীক্ষা শেষ করেছেন।</p>
+                </div>
+
+                <div class="p-6 sm:p-8">
+                    <!-- স্কোর ড্যাশবোর্ড গ্রিড -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+                            <span class="text-xs font-semibold text-slate-500 uppercase">প্রাপ্ত নম্বর</span>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-slate-800 mt-1">
+                                <span id="res-obtained-score">0</span> / <span id="res-total-score">10</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+                            <span class="text-xs font-semibold text-slate-500 uppercase">শতকরা হার</span>
+                            <div id="res-percentage" class="text-2xl sm:text-3xl font-extrabold text-brand-600 mt-1">
+                                0%
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+                            <span class="text-xs font-semibold text-slate-500 uppercase">সঠিক উত্তর</span>
+                            <div id="res-correct-count" class="text-2xl sm:text-3xl font-extrabold text-emerald-600 mt-1">
+                                0
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+                            <span class="text-xs font-semibold text-slate-500 uppercase">ভুল / বাদ পড়া</span>
+                            <div id="res-wrong-count" class="text-2xl sm:text-3xl font-extrabold text-rose-500 mt-1">
+                                0
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- বাটন গ্রুপ -->
+                    <div class="flex flex-wrap items-center justify-center gap-4">
+                        <button onclick="retakeExam()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold py-2.5 px-6 rounded-xl transition flex items-center gap-2 shadow-sm">
+                            <i class="fa-solid fa-rotate-right"></i> পুনরায় পরীক্ষা দিন
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- প্রশ্নের সমাধান ও ব্যাখ্যা (Detailed Review) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+                <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4">
+                    <i class="fa-solid fa-list-check text-brand-600"></i> উত্তরপত্র ও বিস্তারিত বিশ্লেষণ
+                </h3>
+
+                <div id="review-container" class="space-y-6">
+                    <!-- জাভাস্ক্রিপ্ট দিয়ে সলিউশন তৈরি হবে -->
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- সিকিউরিটি সতর্কবার্তা মডাল (Modal) -->
+    <div id="warning-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center shadow-2xl border border-red-100 animate-bounce-once">
+            <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">সতর্কবার্তা! ট্যাব পরিবর্তন সনাক্ত হয়েছে</h3>
+            <p class="text-slate-600 text-sm mb-6">
+                পরীক্ষা চলাকালীন ব্রাউজার বা ট্যাব পরিবর্তন করা নিয়মবহির্ভূত। পুনরায় এমন করলে আপনার পরীক্ষা স্বয়ংক্রিয়ভাবে বাতিল বা সাবমিট হয়ে যাবে।
+            </p>
+            <button onclick="closeWarningModal()" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2.5 rounded-xl transition">
+                আমি বুঝেছি, পরীক্ষায় ফিরে যান
+            </button>
+        </div>
+    </div>
+
+    <!-- সাবমিশন কনফার্মেশন মডাল -->
+    <div id="confirm-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center shadow-2xl">
+            <div class="w-16 h-16 bg-brand-50 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-circle-question"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">পরীক্ষা জমা দিতে চান?</h3>
+            <p id="confirm-modal-msg" class="text-slate-600 text-sm mb-6">
+                আপনি কি নিশ্চিত যে আপনার উত্তরপত্র জমা দিতে চান?
+            </p>
+            <div class="flex items-center justify-center gap-3">
+                <button onclick="closeConfirmModal()" class="w-1/2 border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold py-2.5 rounded-xl transition">
+                    ফিরে যান
+                </button>
+                <button onclick="submitExam()" class="w-1/2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-xl transition">
+                    হ্যাঁ, জমা দিন
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ফুটার -->
+    <footer class="bg-white border-t border-slate-200 py-4 mt-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
+            &copy; ২০২৬ মেধা যাচাই অনলাইন অ্যাসেসমেন্ট সিস্টেম | সর্বস্বত্ব সংরক্ষিত
+        </div>
+    </footer>
+
+    <!-- জাভাস্ক্রিপ্ট লজিক -->
+    <script>
+        // প্রশ্নব্যাংক (Question Bank)
+        const questionBank = {
+            ict: [
+                {
+                    id: 1,
+                    question: "কম্পিউটারের মস্তিষ্কের মতো কাজ করে কোন অংশটি?",
+                    options: ["RAM", "CPU", "Hard Disk", "Monitor"],
+                    correct: 1,
+                    explanation: "CPU (Central Processing Unit) কম্পিউটারের সকল হিসাব-নিকাশ ও প্রক্রিয়াকরণ নিয়ন্ত্রণ করে, তাই একে কম্পিউটারের মস্তিষ্ক বলা হয়।"
+                },
+                {
+                    id: 2,
+                    question: "নিচের কোনটি একটি অপারেটিং সিস্টেমের উদাহরণ?",
+                    options: ["Google Chrome", "MS Word", "Linux", "Adobe Photoshop"],
+                    correct: 2,
+                    explanation: "Linux হলো একটি মুক্ত ও উন্মুক্ত সোর্স অপারেটিং সিস্টেম। বাকিগুলো অ্যাপ্লিকেশন সফটওয়্যার।"
+                },
+                {
+                    id: 3,
+                    question: "WWW এর পূর্ণরূপ কী?",
+                    options: ["World Wide Web", "World Web Wide", "World Whole Web", "Wide World Web"],
+                    correct: 0,
+                    explanation: "WWW মানে হলো World Wide Web, যা ইন্টারনেটের মাধ্যমে পরস্পর সংযুক্ত তথ্যভাণ্ডার।"
+                },
+                {
+                    id: 4,
+                    question: "বাইনারি সংখ্যা পদ্ধতিতে কতটি অংক ব্যবহৃত হয়?",
+                    options: ["১০টি", "৮টি", "২টি", "১৬টি"],
+                    correct: 2,
+                    explanation: "বাইনারি পদ্ধতিতে কেবল ২টি অংক (০ এবং ১) ব্যবহৃত হয়।"
+                },
+                {
+                    id: 5,
+                    question: "ইমেইল (E-mail) বার্তা প্রেরণে কোন প্রোটোকল ব্যবহৃত হয়?",
+                    options: ["HTTP", "SMTP", "FTP", "POP3"],
+                    correct: 1,
+                    explanation: "SMTP (Simple Mail Transfer Protocol) ইমেইল পাঠানোর জন্য ব্যবহৃত হয়।"
+                }
+            ],
+            gk: [
+                {
+                    id: 1,
+                    question: "বাংলাদেশের জাতীয় স্মৃতিসৌধের স্থপতি কে?",
+                    options: ["মাইনুল হোসেন", "হামিদুর রহমান", "শামীম সিকদার", "এফ আর খান"],
+                    correct: 0,
+                    explanation: "সাভারে অবস্থিত জাতীয় স্মৃতিসৌধের স্থপতি সৈয়দ মাইনুল হোসেন।"
+                },
+                {
+                    id: 2,
+                    question: "বিশ্বের বৃহত্তম ম্যানগ্রোভ বন কোনটি?",
+                    options: ["অ্যামাজন", "সুন্দরবন", "ব্ল্যাক ফরেস্ট", "তৈগা"],
+                    correct: 1,
+                    explanation: "বাংলাদেশ ও ভারতে বিস্তৃত সুন্দরবন বিশ্বের একক বৃহত্তম ম্যানগ্রোভ বন।"
+                },
+                {
+                    id: 3,
+                    question: "মুক্তিযুদ্ধের সময় বাংলাদেশকে কয়টি সেক্টরে ভাগ করা হয়েছিল?",
+                    options: ["৮টি", "৯টি", "১০টি", "১১টি"],
+                    correct: 3,
+                    explanation: "১৯৭১ সালের মুক্তিযুদ্ধে সমগ্র বাংলাদেশকে ১১টি প্রশাসনিক সেক্টরে বিভক্ত করা হয়েছিল।"
+                },
+                {
+                    id: 4,
+                    question: "আন্তর্জাতিক মাতৃভাষা দিবস কত তারিখে পালিত হয়?",
+                    options: ["২৬শে মার্চ", "২১শে ফেব্রুয়ারি", "১৬ই ডিসেম্বর", "১৪ই এপ্রিল"],
+                    correct: 1,
+                    explanation: "১৯৯৯ সালে ইউনেস্কো ২১শে ফেব্রুয়ারিকে আন্তর্জাতিক মাতৃভাষা দিবস হিসেবে স্বীকৃতি দেয়।"
+                },
+                {
+                    id: 5,
+                    question: "পদ্মা সেতুর দৈর্ঘ্য কত কিলোমিটার?",
+                    options: ["৫.৮ কিলোমিটার", "৬.১৫ কিলোমিটার", "৭.২ কিলোমিটার", "৪.৮ কিলোমিটার"],
+                    correct: 1,
+                    explanation: "বাংলাদেশের নিজস্ব অর্থায়নে নির্মিত পদ্মা বহুমুখী সেতুর দৈর্ঘ্য ৬.১৫ কিলোমিটার।"
+                }
+            ],
+            science: [
+                {
+                    id: 1,
+                    question: "উদ্ভিদ সালোকসংশ্লেষণের জন্য বায়ুমণ্ডল থেকে কোনটি গ্রহণ করে?",
+                    options: ["অক্সিজেন", "নাইট্রোজেন", "কার্বন ডাই অক্সাইড", "হাইড্রোজেন"],
+                    correct: 2,
+                    explanation: "উদ্ভিদ সূর্যালোক ও কার্বন ডাই অক্সাইড ব্যবহার করে শর্করা জাতীয় খাদ্য তৈরি করে।"
+                },
+                {
+                    id: 2,
+                    question: "মানবদেহে রক্তের প্রধান পাম্পিং অঙ্গ কোনটি?",
+                    options: ["ফুসফুস", "যকৃৎ", "হৃদপিণ্ড", "বৃক্ক"],
+                    correct: 2,
+                    explanation: "হৃদপিণ্ড (Heart) সারাদেহে অনবরত রক্ত পাম্প করে সঞ্চালন বজায় রাখে।"
+                },
+                {
+                    id: 3,
+                    question: "পানির রাসায়নিক সংকেত কোনটি?",
+                    options: ["CO2", "H2O", "NaCl", "O2"],
+                    correct: 1,
+                    explanation: "পানির একটি অণুতে ২টি হাইড্রোজেন পরমাণু ও ১টি অক্সিজেন পরমাণু থাকে (H2O)।"
+                },
+                {
+                    id: 4,
+                    question: "নিচের কোন ভিটামিনের অভাবে রাতকানা রোগ হয়?",
+                    options: ["ভিটামিন A", "ভিটামিন B", "ভিটামিন C", "ভিটামিন D"],
+                    correct: 0,
+                    explanation: "ভিটামিন A-এর অভাবে চোখের দৃষ্টিশক্তি ব্যাহত হয় এবং রাতকানা রোগ হয়।"
+                },
+                {
+                    id: 5,
+                    question: "সূর্যের শক্তির উৎস কোনটি?",
+                    options: ["পারমাণবিক ফিউশন", "পারমাণবিক ফিশন", "রাসায়নিক দহন", "মহাকর্ষীয় সংকোচন"],
+                    correct: 0,
+                    explanation: "সূর্যের কেন্দ্রে নিউক্লিয়ার ফিউশন (Nuclear Fusion) প্রক্রিয়ায় হাইড্রোজেন হিলিয়ামে রূপান্তরিত হয়ে বিপুল শক্তি উৎপন্ন করে।"
+                }
+            ]
+        };
+
+        // গ্লোবাল স্টেট (State Management)
+        let currentUser = { name: "", roll: "", subject: "" };
+        let currentQuestions = [];
+        let userAnswers = {}; // { qIndex: selectedOptionIndex }
+        let flaggedQuestions = new Set();
+        let currentQuestionIndex = 0;
+        let timerInterval = null;
+        let timeRemaining = 0; // seconds
+        let tabSwitchCount = 0;
+        const totalExamTimeMinutes = 5; // পরীক্ষার সময় ৫ মিনিট
+
+        // ১. শুরু করার ফাংশন
+        function handleStartExam(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById("student-name").value.trim();
+            const roll = document.getElementById("roll-number").value.trim();
+            const subjectKey = document.getElementById("subject-select").value;
+
+            if (!name || !roll || !subjectKey) return;
+
+            currentUser = { name, roll, subject: subjectKey };
+            currentQuestions = questionBank[subjectKey];
+
+            // UI আপডেট
+            document.getElementById("display-user-name").innerText = name;
+            document.getElementById("display-roll").innerText = `রোল: ${roll}`;
+            document.getElementById("header-user-info").classList.remove("hidden");
+            document.getElementById("header-user-info").classList.add("flex");
+
+            const subjectNames = { ict: "আইসিটি", gk: "সাধারণ জ্ঞান", science: "সাধারণ বিজ্ঞান" };
+            document.getElementById("exam-subject-title").innerText = subjectNames[subjectKey];
+
+            // স্ক্রিন সুইচ
+            document.getElementById("login-section").classList.add("hidden");
+            document.getElementById("exam-section").classList.remove("hidden");
+
+            // রিসেট ও লোড
+            userAnswers = {};
+            flaggedQuestions.clear();
+            currentQuestionIndex = 0;
+            tabSwitchCount = 0;
+
+            document.getElementById("total-q-num").innerText = currentQuestions.length;
+
+            loadQuestion(currentQuestionIndex);
+            renderQuestionPalette();
+            startTimer(totalExamTimeMinutes * 60);
+            setupProctoring();
+        }
+
+        // ২. প্রশ্ন লোড করা
+        function loadQuestion(index) {
+            currentQuestionIndex = index;
+            const q = currentQuestions[index];
+
+            document.getElementById("current-q-num").innerText = index + 1;
+            document.getElementById("question-text").innerText = `${index + 1}. ${q.question}`;
+
+            // অপশন লোড
+            const optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+
+            q.options.forEach((optText, optIdx) => {
+                const isSelected = userAnswers[index] === optIdx;
+                const optBtn = document.createElement("button");
+                optBtn.type = "button";
+                optBtn.onclick = () => selectOption(optIdx);
+                
+                optBtn.className = `w-full text-left p-4 rounded-xl border transition flex items-center gap-3 ${
+                    isSelected 
+                    ? 'border-brand-500 bg-brand-50/60 ring-2 ring-brand-500 font-semibold text-brand-800' 
+                    : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700'
+                }`;
+
+                const letter = String.fromCharCode(2453 + optIdx); // ক, খ, গ, ঘ
+                optBtn.innerHTML = `
+                    <span class="w-8 h-8 rounded-lg flex items-center justify-center border ${isSelected ? 'bg-brand-600 text-white border-brand-600' : 'bg-white border-slate-300 text-slate-500'} text-sm font-bold">
+                        ${letter}
+                    </span>
+                    <span class="flex-grow">${optText}</span>
+                `;
+                optionsContainer.appendChild(optBtn);
+            });
+
+            // ফ্ল্যাগ বোতামের অবস্থা আপডেট
+            const flagBtn = document.getElementById("flag-btn");
+            const flagBtnText = document.getElementById("flag-btn-text");
+            if (flaggedQuestions.has(index)) {
+                flagBtn.className = "flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border border-amber-300 bg-amber-50 text-amber-700 transition";
+                flagBtnText.innerText = "চিহ্নিত করা হয়েছে";
+            } else {
+                flagBtn.className = "flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 transition";
+                flagBtnText.innerText = "পরে দেখার জন্য চিহ্নিত করুন";
+            }
+
+            // নেভিগেশন বাটন এনাবল/ডিজেবল
+            document.getElementById("prev-btn").disabled = index === 0;
+            const nextBtn = document.getElementById("next-btn");
+            if (index === currentQuestions.length - 1) {
+                nextBtn.innerHTML = `শেষ প্রশ্ন <i class="fa-solid fa-check text-xs"></i>`;
+            } else {
+                nextBtn.innerHTML = `পরবর্তী <i class="fa-solid fa-chevron-right text-xs"></i>`;
+            }
+
+            renderQuestionPalette();
+        }
+
+        // ৩. উত্তর নির্বাচন
+        function selectOption(optIdx) {
+            userAnswers[currentQuestionIndex] = optIdx;
+            loadQuestion(currentQuestionIndex);
+        }
+
+        // ৪. নেভিগেশন
+        function navigateQuestion(step) {
+            const newIndex = currentQuestionIndex + step;
+            if (newIndex >= 0 && newIndex < currentQuestions.length) {
+                loadQuestion(newIndex);
+            }
+        }
+
+        // ৫. ফ্ল্যাগ টগল
+        function toggleFlag() {
+            if (flaggedQuestions.has(currentQuestionIndex)) {
+                flaggedQuestions.delete(currentQuestionIndex);
+            } else {
+                flaggedQuestions.add(currentQuestionIndex);
+            }
+            loadQuestion(currentQuestionIndex);
+        }
+
+        // ৬. প্রশ্ন প্যালেট রেন্ডার
+        function renderQuestionPalette() {
+            const palette = document.getElementById("question-palette");
+            palette.innerHTML = "";
+
+            currentQuestions.forEach((_, idx) => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.onclick = () => loadQuestion(idx);
+
+                const isAnswered = userAnswers.hasOwnProperty(idx);
+                const isFlagged = flaggedQuestions.has(idx);
+                const isCurrent = idx === currentQuestionIndex;
+
+                let classes = "w-9 h-9 rounded-lg font-bold text-sm flex items-center justify-center transition ";
+
+                if (isCurrent) {
+                    classes += "ring-2 ring-offset-1 ring-brand-500 ";
+                }
+
+                if (isFlagged) {
+                    classes += "bg-amber-400 text-slate-900 ";
+                } else if (isAnswered) {
+                    classes += "bg-emerald-500 text-white ";
+                } else {
+                    classes += "bg-slate-100 text-slate-600 hover:bg-slate-200 ";
+                }
+
+                btn.className = classes;
+                btn.innerText = idx + 1;
+                palette.appendChild(btn);
+            });
+        }
+
+        // ৭. টাইমার লজিক
+        function startTimer(seconds) {
+            timeRemaining = seconds;
+            updateTimerDisplay();
+
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert("পরীক্ষার নির্ধারিত সময় শেষ হয়ে গেছে! উত্তরপত্র স্বয়ংক্রিয়ভাবে জমা নেওয়া হচ্ছে।");
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const secs = timeRemaining % 60;
+            const formatted = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            document.getElementById("timer-display").innerText = formatted;
+        }
+
+        // ৮. সিকিউরিটি / প্রক্টরিং (Tab Switching Warning)
+        function setupProctoring() {
+            document.addEventListener("visibilitychange", handleVisibilityChange);
+        }
+
+        function handleVisibilityChange() {
+            // যদি পরীক্ষা চলাকালীন মোডে থাকে
+            if (!document.getElementById("exam-section").classList.contains("hidden")) {
+                if (document.hidden) {
+                    tabSwitchCount++;
+                    if (tabSwitchCount >= 2) {
+                        alert("আপনি বারবার নিয়ম লঙ্ঘন করে অন্য ট্যাবে প্রবেশ করেছেন। নিরাপত্তা বজায় রাখতে আপনার পরীক্ষা এখনই স্বয়ংক্রিয়ভাবে জমা দেওয়া হলো।");
+                        submitExam();
+                    } else {
+                        document.getElementById("warning-modal").classList.remove("hidden");
+                    }
+                }
+            }
+        }
+
+        function closeWarningModal() {
+            document.getElementById("warning-modal").classList.add("hidden");
+        }
+
+        // ৯. সাবমিট কনফার্মেশন মডাল
+        function confirmSubmitExam() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const totalCount = currentQuestions.length;
+            const unanswered = totalCount - answeredCount;
+
+            let msg = `আপনি মোট ${totalCount}টি প্রশ্নের মধ্যে ${answeredCount}টির উত্তর দিয়েছেন।`;
+            if (unanswered > 0) {
+                msg += ` ${unanswered}টি প্রশ্নের উত্তর এখনও বাকি রয়েছে।`;
+            }
+            document.getElementById("confirm-modal-msg").innerText = msg;
+            document.getElementById("confirm-modal").classList.remove("hidden");
+        }
+
+        function closeConfirmModal() {
+            document.getElementById("confirm-modal").classList.add("hidden");
+        }
+
+        // ১০. পরীক্ষা জমা দেওয়া এবং ফলাফল প্রস্তুত করা
+        function submitExam() {
+            clearInterval(timerInterval);
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
+            
+            closeConfirmModal();
+
+            let correctCount = 0;
+            currentQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] === q.correct) {
+                    correctCount++;
+                }
+            });
+
+            const total = currentQuestions.length;
+            const percentage = Math.round((correctCount / total) * 100);
+
+            // ফলাফল ড্যাশবোর্ডে ডেটা সেট করা
+            document.getElementById("res-obtained-score").innerText = correctCount;
+            document.getElementById("res-total-score").innerText = total;
+            document.getElementById("res-percentage").innerText = `${percentage}%`;
+            document.getElementById("res-correct-count").innerText = correctCount;
+            document.getElementById("res-wrong-count").innerText = total - correctCount;
+
+            const headerBg = document.getElementById("result-header-bg");
+            const resIcon = document.getElementById("result-icon");
+            const resMsg = document.getElementById("result-message");
+
+            if (percentage >= 50) {
+                headerBg.className = "bg-gradient-to-r from-emerald-600 to-teal-600 text-white p-8 text-center";
+                resIcon.className = "fa-solid fa-trophy text-4xl";
+                resMsg.innerText = "অভিনন্দন! আপনি পরীক্ষায় সফলভাবে উত্তীর্ণ হয়েছেন।";
+            } else {
+                headerBg.className = "bg-gradient-to-r from-rose-600 to-red-600 text-white p-8 text-center";
+                resIcon.className = "fa-solid fa-circle-xmark text-4xl";
+                resMsg.innerText = "দুঃখিত, আপনি কৃতকার্য হতে পারেননি। আরও অনুশীলনের প্রয়োজন।";
+            }
+
+            // ডিটেইলড রিভিউ রেন্ডার
+            renderDetailedReview();
+
+            // স্ক্রিন পরিবর্তন
+            document.getElementById("exam-section").classList.add("hidden");
+            document.getElementById("result-section").classList.remove("hidden");
+        }
+
+        // ১১. ফলাফল রিভিউ ও ব্যাখ্যা প্রদর্শন
+        function renderDetailedReview() {
+            const container = document.getElementById("review-container");
+            container.innerHTML = "";
+
+            currentQuestions.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                const isCorrect = userAns === q.correct;
+                const isSkipped = userAns === undefined;
+
+                const card = document.createElement("div");
+                card.className = `p-5 rounded-xl border ${isCorrect ? 'bg-emerald-50/40 border-emerald-200' : (isSkipped ? 'bg-slate-50 border-slate-200' : 'bg-rose-50/40 border-rose-200')}`;
+
+                let statusBadge = "";
+                if (isCorrect) {
+                    statusBadge = `<span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-md flex items-center gap-1"><i class="fa-solid fa-check"></i> সঠিক</span>`;
+                } else if (isSkipped) {
+                    statusBadge = `<span class="bg-slate-200 text-slate-700 text-xs font-bold px-2.5 py-1 rounded-md flex items-center gap-1"><i class="fa-solid fa-minus"></i> উত্তর দেওয়া হয়নি</span>`;
+                } else {
+                    statusBadge = `<span class="bg-rose-100 text-rose-800 text-xs font-bold px-2.5 py-1 rounded-md flex items-center gap-1"><i class="fa-solid fa-xmark"></i> ভুল</span>`;
+                }
+
+                let optionsHTML = "";
+                q.options.forEach((opt, oIdx) => {
+                    let optStyle = "bg-white border-slate-200 text-slate-700";
+                    let icon = "";
+
+                    if (oIdx === q.correct) {
+                        optStyle = "bg-emerald-100 border-emerald-300 text-emerald-900 font-semibold";
+                        icon = `<i class="fa-solid fa-circle-check text-emerald-600"></i>`;
+                    } else if (oIdx === userAns && !isCorrect) {
+                        optStyle = "bg-rose-100 border-rose-300 text-rose-900 font-semibold";
+                        icon = `<i class="fa-solid fa-circle-xmark text-rose-600"></i>`;
+                    }
+
+                    const letter = String.fromCharCode(2453 + oIdx);
+                    optionsHTML += `
+                        <div class="p-3 rounded-lg border ${optStyle} text-sm flex items-center justify-between">
+                            <span><strong>${letter}.</strong> ${opt}</span>
+                            ${icon}
+                        </div>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-3 mb-4">
+                        <h4 class="font-bold text-slate-800 text-base sm:text-lg">${idx + 1}. ${q.question}</h4>
+                        ${statusBadge}
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
+                        ${optionsHTML}
+                    </div>
+                    <div class="bg-white/80 p-3.5 rounded-lg border border-slate-200/80 text-xs text-slate-600">
+                        <strong class="text-slate-800 flex items-center gap-1 mb-1">
+                            <i class="fa-solid fa-lightbulb text-amber-500"></i> সঠিক ব্যাখ্যা:
+                        </strong>
+                        ${q.explanation}
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // ১২. পুনরায় পরীক্ষা নেওয়ার ফাংশন
+        function retakeExam() {
+            document.getElementById("result-section").classList.add("hidden");
+            document.getElementById("login-section").classList.remove("hidden");
+            document.getElementById("header-user-info").classList.add("hidden");
+        }
+    </script>
+</body>
+</html>

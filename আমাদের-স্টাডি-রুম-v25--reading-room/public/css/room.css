@@ -1,0 +1,146 @@
+/* public/css/room.css - Premium Modern Design */
+
+#sr-entry .mbox {
+  background: var(--card);
+  border-radius: 24px;
+  padding: 26px 22px;
+  max-width: 440px;
+  width: 100%;
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  animation: popUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes popUp {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* আধুনিক ইনপুট ফিল্ড */
+#sr-entry input, #sr-entry textarea {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  font: inherit;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--card) 94%, var(--line));
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 16px;
+  font-size: 15px;
+  transition: all 0.25s ease;
+  outline: none;
+}
+
+#sr-entry input:focus {
+  border-color: var(--a);
+  background: var(--card);
+  box-shadow: 0 0 0 4px var(--as);
+}
+
+/* সেকশন টাইটেল */
+#sr-entry .gm {
+  color: var(--mute);
+  font-size: 14px;
+  font-weight: 600;
+  margin: 16px 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#sr-entry .ge {
+  color: var(--danger);
+  font-size: 14px;
+  min-height: 1.3em;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+/* টার্গেট সিলেকশন গ্রিড (Medical / Engineering / Varsity) */
+.gl {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.gl button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 11px 12px;
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.gl button:hover {
+  border-color: var(--a);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
+}
+
+/* স্পেসিফিক টার্গেট থিম কালার */
+.gl button[data-g="Medical"].on {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.38);
+  transform: translateY(-1px);
+}
+
+.gl button[data-g="Engineering"].on {
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.38);
+  transform: translateY(-1px);
+}
+
+.gl button[data-g="Varsity"].on {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.38);
+  transform: translateY(-1px);
+}
+
+.gl button.goal-custom {
+  grid-column: span 2;
+}
+
+.gl button.goal-custom.on {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.35);
+  transform: translateY(-1px);
+}
+
+/* বাটন ও ফুটার রো */
+#sr-entry .row {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+#sr-entry .row button {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 15px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#sr-entry .row button:hover {
+  transform: translateY(-1px);
+}
